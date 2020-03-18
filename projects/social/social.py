@@ -1,4 +1,10 @@
+import os
 import random
+import sys
+
+sys.path.append(os.path.join(__file__, '../../graph'))
+
+from graph import Queue
 
 class User:
     def __init__(self, name):
@@ -57,16 +63,15 @@ class SocialGraph:
         for user_id in self.users:
             for friend_id in range(user_id + 1, self.last_id + 1):
                 possible_friendships.append((user_id, friend_id))
-​
+
         random.shuffle(possible_friendships)
-​
+
         # Create n friendships where n = avg_friendships * num_users // 2
         # avg_friendships = total_friendships / num_users
         # total_friendships = avg_friendships * num_users
         for i in range(num_users * avg_friendships // 2):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
-            
 
 
     def get_all_social_paths(self, user_id):
@@ -79,13 +84,25 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        # bfs all friends
+        queue = Queue()
+        queue.enqueue((user_id, [user_id]))
+        while queue.size():
+            user, path = queue.dequeue()
+            if not user in visited:
+                visited[user] = path
+                friends = self.friendships[user]
+                for friend in friends:
+                    queue.enqueue((friend, [*path, friend]))
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    sg.populate_graph(1000, 5)
+    # print(sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    # print(connections)
+    print(len(connections), sum([len(connections[key]) for key in connections])//len(connections) )
