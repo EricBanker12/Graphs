@@ -62,4 +62,4 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 
-* the O(n) solution risks longer runtime when number of friendships and number of users are close.
+* the O(n) solution risks longer (or infinite) runtime when number of friendships and number of users are close (due to friendship collisions).
