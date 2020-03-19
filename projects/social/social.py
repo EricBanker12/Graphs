@@ -123,4 +123,4 @@ if __name__ == '__main__':
     # print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     # print(connections)
-    print(len(connections), sum([len(connections[key]) for key in connections])//len(connections) )
+    print(len(connections), sum([len(connections[key]) for key in connections])/len(connections) - 1)
